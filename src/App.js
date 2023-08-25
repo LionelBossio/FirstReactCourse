@@ -1,22 +1,31 @@
-import logo from './logo.svg';
+import ImgPeriodica from './img/img-home.jpg'
 import './App.css';
+import { useState } from 'react';
+import Elements from './components/Elements';
 
 function App() {
+  const [element, setElement] = useState(null);
+
+  const Apireq = async () => {
+    const api = await fetch("https://neelpatel05.pythonanywhere.com");
+    const ElementApi = await api.json();
+    setElement(ElementApi);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1 className="title">Tabla Periodica</h1>
+        {element ? (
+          <Elements element={element} setElement={setElement}/>
+        ) : (
+          <>
+            <img src={ImgPeriodica} alt='TablaPeriodica' className='img-home'></img>
+            <button onClick={Apireq} className='btn-search'>Ver Elementos</button>
+          </>
+        )}
+        
+        
       </header>
     </div>
   );
